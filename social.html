@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAMP | Social Feed</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --bg-soft: #1f2937;
+            --white: #f8fafc;
+            --muted: #dbe3f5;
+            --pink: #ec4899;
+            --purple: #8b5cf6;
+            --blue: #3b82f6;
+            --teal: #14b8a6;
+            --gold: #f59e0b;
+            --border: rgba(255, 255, 255, 0.14);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(139, 92, 246, 0.45), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(45, 212, 191, 0.35), transparent 25%),
+                linear-gradient(135deg, var(--bg) 0%, #111827 40%, var(--bg-soft) 100%);
+            color: var(--white);
+            min-height: 100vh;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.25rem 4rem;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 0 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.22rem;
+            text-transform: uppercase;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--pink), var(--purple), var(--blue));
+            display: grid;
+            place-items: center;
+            box-shadow: 0 0 18px rgba(255, 79, 216, 0.55);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link, .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            padding: 0.8rem 1.2rem;
+            font-weight: 700;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.06);
+            color: var(--white);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            border: none;
+            box-shadow: 0 12px 26px rgba(167, 139, 250, 0.35);
+        }
+
+        .floating-seller {
+            width: 52px;
+            height: 52px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pink), var(--purple), var(--blue));
+            color: var(--white);
+            font-size: 1.35rem;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: 0 16px 32px rgba(168, 85, 247, 0.45);
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            letter-spacing: -0.06em;
+            margin-bottom: 0.8rem;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feed-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 18px 35px rgba(15, 23, 42, 0.25);
+        }
+
+        .media-visual {
+            height: 260px;
+            position: relative;
+            display: flex;
+            align-items: end;
+            justify-content: flex-start;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .media-visual.instagram { background: linear-gradient(135deg, #f472b6, #8b5cf6 45%, #3b82f6); }
+        .media-visual.tiktok { background: linear-gradient(135deg, #0f172a, #1d4ed8 50%, #21c55d); }
+        .media-visual.reels { background: linear-gradient(135deg, #f97316, #f59e0b 35%, #fb7185); }
+
+        .platform-tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.35);
+            border: 1px solid rgba(255,255,255,0.18);
+            padding: 0.45rem 0.8rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.08rem;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .feed-content {
+            padding: 1.2rem;
+        }
+
+        .feed-content h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feed-content p {
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .view-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            padding: 0.7rem 1rem;
+            font-weight: 700;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-mark">C</span>
+                <span>CAMP</span>
+            </div>
+            <div class="nav-actions">
+                <nav class="nav-links">
+                    <a class="nav-link" href="index.html">Home</a>
+                    <a class="nav-link" href="products.html">Products</a>
+                    <a class="nav-link" href="payment.html">Payment</a>
+                    <a href="payment.html" class="nav-cta">Shop Now</a>
+                </nav>
+                <button class="floating-seller" type="button" aria-label="Seller access" onclick="window.location.href='sellers.html'">👤</button>
+            </div>
+        </header>
+
+        <section class="hero">
+            <h1>Social media uploads</h1>
+            <p>See the latest CAMP looks across Instagram, TikTok, and creator-style reels from our community.</p>
+        </section>
+
+        <section class="feed-grid">
+            <article class="feed-card">
+                <div class="media-visual instagram">
+                    <span class="platform-tag">Instagram</span>
+                </div>
+                <div class="feed-content">
+                    <h2>Weekend edit</h2>
+                    <p>Studio layering, soft neutrals, and laid-back pieces that move easily from day to night.</p>
+                    <a class="view-link" href="#">View post</a>
+                </div>
+            </article>
+
+            <article class="feed-card">
+                <div class="media-visual tiktok">
+                    <span class="platform-tag">TikTok</span>
+                </div>
+                <div class="feed-content">
+                    <h2>City motion</h2>
+                    <p>Quick styling transitions and premium essentials designed for easy everyday expression.</p>
+                    <a class="view-link" href="#">Watch video</a>
+                </div>
+            </article>
+
+            <article class="feed-card">
+                <div class="media-visual reels">
+                    <span class="platform-tag">Reels</span>
+                </div>
+                <div class="feed-content">
+                    <h2>Bold energy</h2>
+                    <p>Color-rich looks, textured layering, and fresh silhouettes for standout moments.</p>
+                    <a class="view-link" href="#">Open reel</a>
+                </div>
+            </article>
+
+            <article class="feed-card">
+                <div class="media-visual instagram">
+                    <span class="platform-tag">Instagram</span>
+                </div>
+                <div class="feed-content">
+                    <h2>Street styling</h2>
+                    <p>Clean fits, confident layers, and statement pieces that feel premium and effortless.</p>
+                    <a class="view-link" href="#">View gallery</a>
+                </div>
+            </article>
+
+            <article class="feed-card">
+                <div class="media-visual tiktok">
+                    <span class="platform-tag">TikTok</span>
+                </div>
+                <div class="feed-content">
+                    <h2>After dark</h2>
+                    <p>Fashion-forward outfits and polished details for nights out, dinner plans, and events.</p>
+                    <a class="view-link" href="#">Watch clip</a>
+                </div>
+            </article>
+
+            <article class="feed-card">
+                <div class="media-visual reels">
+                    <span class="platform-tag">Reels</span>
+                </div>
+                <div class="feed-content">
+                    <h2>New drop</h2>
+                    <p>A closer look at our latest collection, textures, and styling inspirations from the community.</p>
+                    <a class="view-link" href="#">Play reel</a>
+                </div>
+            </article>
+        </section>
+    </div>
+</body>
+</html>

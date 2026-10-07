@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAMP | Sellers</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --bg-soft: #1f2937;
+            --white: #f8fafc;
+            --muted: #dbe3f5;
+            --pink: #ec4899;
+            --purple: #8b5cf6;
+            --blue: #3b82f6;
+            --teal: #14b8a6;
+            --gold: #f59e0b;
+            --border: rgba(255, 255, 255, 0.14);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(139, 92, 246, 0.45), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(45, 212, 191, 0.35), transparent 25%),
+                linear-gradient(135deg, var(--bg) 0%, #111827 40%, var(--bg-soft) 100%);
+            color: var(--white);
+            min-height: 100vh;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.25rem 4rem;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 0 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.22rem;
+            text-transform: uppercase;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--pink), var(--purple), var(--blue));
+            display: grid;
+            place-items: center;
+            box-shadow: 0 0 18px rgba(255, 79, 216, 0.55);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link, .action-btn, .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            padding: 0.8rem 1.2rem;
+            font-weight: 700;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.06);
+            color: var(--white);
+        }
+
+        .action-btn, .nav-cta {
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            border: none;
+        }
+
+        .floating-seller {
+            width: 52px;
+            height: 52px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pink), var(--purple), var(--blue));
+            color: var(--white);
+            font-size: 1.35rem;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: 0 16px 32px rgba(168, 85, 247, 0.45);
+        }
+
+        .auth-wrap {
+            max-width: 440px;
+            margin: 5rem auto 0;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 26px;
+            padding: 2rem;
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.35);
+        }
+
+        .auth-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .auth-wrap h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            letter-spacing: -0.05em;
+        }
+
+        .subtitle {
+            margin-bottom: 1.5rem;
+            color: var(--muted);
+        }
+
+        .auth-form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.04);
+            color: var(--white);
+            font: inherit;
+        }
+
+        .auth-form button {
+            border: none;
+            border-radius: 12px;
+            padding: 0.95rem 1rem;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            color: var(--white);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .mode-toggle {
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.04);
+            color: var(--white);
+            padding: 0.5rem 0.7rem;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.78rem;
+        }
+
+        .status {
+            min-height: 1.3rem;
+            margin-top: 0.8rem;
+            color: #fca5a5;
+            font-size: 0.92rem;
+        }
+
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.visible {
+            display: block;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.2rem;
+        }
+
+        .stat-card span {
+            display: block;
+            color: var(--muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card strong {
+            font-size: 1.8rem;
+            letter-spacing: -0.05em;
+        }
+
+        .upload-panel,
+        .orders-panel {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 1.4rem;
+        }
+
+        .upload-panel {
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-panel h2,
+        .orders-panel h2 {
+            margin-bottom: 1rem;
+        }
+
+        .upload-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.9rem;
+        }
+
+        .upload-form input,
+        .upload-form textarea,
+        .upload-form select {
+            width: 100%;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--white);
+            padding: 0.8rem 0.9rem;
+            font: inherit;
+        }
+
+        .upload-form textarea {
+            min-height: 90px;
+            resize: vertical;
+            grid-column: 1 / -1;
+        }
+
+        .upload-form button {
+            grid-column: 1 / -1;
+            border: none;
+            border-radius: 12px;
+            padding: 0.9rem 1rem;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            color: var(--white);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .upload-status {
+            min-height: 1.3rem;
+            margin-top: 0.8rem;
+            color: #bbf7d0;
+            font-size: 0.92rem;
+        }
+
+        .inventory-list {
+            display: grid;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .inventory-item {
+            display: grid;
+            grid-template-columns: 72px 1fr auto;
+            gap: 0.8rem;
+            align-items: center;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 0.75rem;
+        }
+
+        .inventory-item img {
+            width: 72px;
+            height: 72px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .inventory-meta strong {
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .inventory-meta span {
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .inventory-price {
+            font-weight: 700;
+            color: #fef3c7;
+        }
+
+        .order-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .order-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1rem;
+        }
+
+        .order-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.8rem;
+        }
+
+        .order-item strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .order-item small,
+        .order-item p {
+            color: var(--muted);
+        }
+
+        .items-list {
+            display: grid;
+            gap: 0.35rem;
+            margin-top: 0.8rem;
+        }
+
+        .empty-state {
+            color: var(--muted);
+            padding: 1rem 0;
+        }
+
+        @media (max-width: 640px) {
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                width: 100%;
+            }
+
+            .nav-link, .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-mark">C</span>
+                <span>CAMP</span>
+            </div>
+            <div class="nav-actions">
+                <nav class="nav-links">
+                    <a class="nav-link" href="index.html">Home</a>
+                    <a class="nav-link" href="products.html">Products</a>
+                    <a class="nav-link" href="payment.html">Payment</a>
+                    <a href="payment.html" class="nav-cta">Shop Now</a>
+                </nav>
+                <button class="floating-seller" type="button" aria-label="Seller access" onclick="window.location.href='sellers.html'">👤</button>
+            </div>
+        </header>
+
+        <main>
+            <section class="auth-wrap" id="login-view">
+                <div class="auth-header">
+                    <h1 id="auth-title">Seller login</h1>
+                    <button class="mode-toggle" type="button" id="auth-toggle">Sign up</button>
+                </div>
+                <p class="subtitle">Secure access to incoming orders and customer payment confirmations.</p>
+
+                <form class="auth-form" id="login-form">
+                    <input type="text" id="seller-user" placeholder="Username" required>
+                    <input type="email" id="seller-email" placeholder="Email" style="display: none;">
+                    <input type="password" id="seller-pass" placeholder="Password" required>
+                    <button type="submit" id="auth-submit">Log in</button>
+                </form>
+                <div class="status" id="login-status" aria-live="polite"></div>
+            </section>
+
+            <section class="dashboard" id="dashboard-view">
+                <div class="stats">
+                    <div class="stat-card">
+                        <span>Orders</span>
+                        <strong id="order-count">0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span>Revenue</span>
+                        <strong id="revenue-total">$0.00</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span>Products</span>
+                        <strong id="product-total">0</strong>
+                    </div>
+                </div>
+
+                <div class="upload-panel">
+                    <h2>Add new product</h2>
+                    <form class="upload-form" id="upload-form">
+                        <input type="text" name="productName" placeholder="Product name" required>
+                        <input type="number" name="productPrice" placeholder="Price" min="1" step="0.01" required>
+                        <input type="text" name="productTag" placeholder="Tag e.g. new drop" required>
+                        <input type="text" name="productImage" placeholder="Image path or URL" required>
+                        <textarea name="productDescription" placeholder="Short product description"></textarea>
+                        <button type="submit">Upload product</button>
+                    </form>
+                    <div class="upload-status" id="upload-status" aria-live="polite"></div>
+                    <div class="inventory-list" id="inventory-list"></div>
+                </div>
+
+                <div class="orders-panel">
+                    <h2>Incoming orders</h2>
+                    <div class="order-list" id="orders-list"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:5000/api';
+        const SELLER_STORAGE_KEY = 'camp-seller-orders';
+        const AUTH_KEY = 'camp-seller-auth';
+        const SELLER_DATABASE_KEY = 'camp-seller-database';
+        const INVENTORY_STORAGE_KEY = 'camp-seller-inventory';
+        const SELLER_TOKEN_KEY = 'camp-seller-token';
+
+        async function apiRequest(path, options = {}) {
+            const response = await fetch(`${API_BASE_URL}${path}`, {
+                headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+                ...options,
+            });
+
+            const contentType = response.headers.get('content-type') || '';
+            const payload = contentType.includes('application/json') ? await response.json() : await response.text();
+
+            if (!response.ok) {
+                throw new Error(payload.message || 'Request failed');
+            }
+
+            return payload;
+        }
+
+        const loginView = document.getElementById('login-view');
+        const dashboardView = document.getElementById('dashboard-view');
+        const loginForm = document.getElementById('login-form');
+        const loginStatus = document.getElementById('login-status');
+        const ordersList = document.getElementById('orders-list');
+        const orderCount = document.getElementById('order-count');
+        const revenueTotal = document.getElementById('revenue-total');
+        const productTotal = document.getElementById('product-total');
+        const authTitle = document.getElementById('auth-title');
+        const authSubmit = document.getElementById('auth-submit');
+        const authToggle = document.getElementById('auth-toggle');
+
+        const upperCaseMoney = (value) => new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD'
+        }).format(value);
+
+        function readOrders() {
+            try {
+                return JSON.parse(localStorage.getItem(SELLER_STORAGE_KEY) || '[]');
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function readInventory() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(INVENTORY_STORAGE_KEY) || '[]');
+                return Array.isArray(saved) ? saved : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function saveInventory(items) {
+            localStorage.setItem(INVENTORY_STORAGE_KEY, JSON.stringify(items));
+        }
+
+        function writeOrders(orders) {
+            localStorage.setItem(SELLER_STORAGE_KEY, JSON.stringify(orders));
+        }
+
+        function getSession() {
+            return localStorage.getItem(AUTH_KEY) === 'true';
+        }
+
+        function setSession(isLoggedIn) {
+            localStorage.setItem(AUTH_KEY, String(isLoggedIn));
+        }
+
+        function readDatabase() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(SELLER_DATABASE_KEY) || '[]');
+                return Array.isArray(saved) ? saved : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function saveDatabase(accounts) {
+            localStorage.setItem(SELLER_DATABASE_KEY, JSON.stringify(accounts));
+        }
+
+        function findAccount(username) {
+            return readDatabase().find((account) => account.username === username);
+        }
+
+        function isValidSellerEmail(email) {
+            const trimmedEmail = (email || '').trim();
+            if (!trimmedEmail) return false;
+            if (!/^[A-Za-z0-9!#$&._%+\-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(trimmedEmail)) {
+                return false;
+            }
+            if (!/[!#$&]/.test(trimmedEmail)) {
+                return false;
+            }
+            const uniqueDigits = new Set(trimmedEmail.match(/\d/g) || []);
+            return uniqueDigits.size >= 3;
+        }
+
+        function renderInventory(items = readInventory()) {
+            const inventoryList = document.getElementById('inventory-list');
+            inventoryList.innerHTML = '';
+
+            if (!items.length) {
+                inventoryList.innerHTML = '<div class="empty-state">No products uploaded yet.</div>';
+                return;
+            }
+
+            items.forEach((product) => {
+                const item = document.createElement('div');
+                item.className = 'inventory-item';
+                item.innerHTML = `
+                    <img src="${product.image || product.image_url || 'gocrazy1.PNG'}" alt="${product.name}">
+                    <div class="inventory-meta">
+                        <strong>${product.name}</strong>
+                        <span>${product.tag || 'seller upload'}</span>
+                    </div>
+                    <div class="inventory-price">${upperCaseMoney(Number(product.price || 0))}</div>
+                `;
+                inventoryList.appendChild(item);
+            });
+        }
+
+        function renderOrders(orders = readOrders()) {
+            ordersList.innerHTML = '';
+
+            if (!orders.length) {
+                ordersList.innerHTML = '<div class="empty-state">No orders have been placed yet.</div>';
+                orderCount.textContent = '0';
+                revenueTotal.textContent = '$0.00';
+                productTotal.textContent = '0';
+                return;
+            }
+
+            let totalRevenue = 0;
+            let totalProducts = 0;
+
+            orders.forEach((order) => {
+                totalRevenue += Number(order.total || 0);
+                totalProducts += (order.items || []).reduce((sum, item) => sum + Number(item.qty || item.quantity || 0), 0);
+
+                const item = document.createElement('div');
+                item.className = 'order-item';
+                const orderName = order.customerName || order.customer_name || 'Guest customer';
+                const orderEmail = order.customerEmail || order.customer_email || 'guest@campclothing.com';
+                const orderTotal = Number(order.total || 0);
+                const orderDate = order.createdAt || new Date().toISOString();
+                const notes = order.notes || order.shipping_address || '';
+
+                item.innerHTML = `
+                    <div class="order-head">
+                        <div>
+                            <strong>${orderName}</strong>
+                            <small>${new Date(orderDate).toLocaleString()}</small>
+                        </div>
+                        <strong>${upperCaseMoney(orderTotal)}</strong>
+                    </div>
+                    <p>Email: ${orderEmail}</p>
+                    <div class="items-list">
+                        ${(order.items || []).map((entry) => `<div>• ${entry.name} x${entry.qty || entry.quantity || 1}</div>`).join('')}
+                    </div>
+                    ${notes ? `<p style="margin-top:0.8rem;">Note: ${notes}</p>` : ''}
+                `;
+                ordersList.appendChild(item);
+            });
+
+            orderCount.textContent = String(orders.length);
+            revenueTotal.textContent = upperCaseMoney(totalRevenue);
+            productTotal.textContent = String(totalProducts);
+        }
+
+        async function loadSellerData() {
+            const token = localStorage.getItem(SELLER_TOKEN_KEY);
+            if (!token) {
+                renderInventory();
+                renderOrders();
+                return;
+            }
+
+            try {
+                const productResult = await apiRequest('/products', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                if (Array.isArray(productResult.products) && productResult.products.length) {
+                    renderInventory(productResult.products);
+                }
+            } catch (error) {
+                console.warn('Could not load products from API, using local inventory.', error.message);
+                renderInventory();
+            }
+
+            try {
+                const ordersResult = await apiRequest('/orders', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                if (Array.isArray(ordersResult.orders) && ordersResult.orders.length) {
+                    renderOrders(ordersResult.orders.map((order) => ({
+                        ...order,
+                        customerName: order.customer_name,
+                        customerEmail: order.customer_email,
+                        items: (order.items || []).map((item) => ({
+                            ...item,
+                            name: item.product_name,
+                            qty: item.quantity
+                        })),
+                        total: Number(order.total_amount || 0),
+                        createdAt: order.created_at,
+                        notes: order.shipping_address
+                    })));
+                    return;
+                }
+            } catch (error) {
+                console.warn('Could not load orders from API, using local orders.', error.message);
+            }
+
+            renderOrders();
+        }
+
+        function showDashboard() {
+            loginView.style.display = 'none';
+            dashboardView.classList.add('visible');
+            loadSellerData();
+        }
+
+        function showLogin() {
+            loginView.style.display = 'block';
+            dashboardView.classList.remove('visible');
+        }
+
+        let isSignupMode = false;
+
+        function setFormMode(signupMode) {
+            isSignupMode = signupMode;
+            const emailField = document.getElementById('seller-email');
+            emailField.style.display = signupMode ? 'block' : 'none';
+            emailField.required = signupMode;
+            authTitle.textContent = signupMode ? 'Seller sign up' : 'Seller login';
+            authSubmit.textContent = signupMode ? 'Create account' : 'Log in';
+            authToggle.textContent = signupMode ? 'Log in' : 'Sign up';
+            loginStatus.textContent = '';
+        }
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const username = document.getElementById('seller-user').value.trim();
+            const email = document.getElementById('seller-email').value.trim();
+            const password = document.getElementById('seller-pass').value.trim();
+
+            if (!username || !password) {
+                loginStatus.textContent = 'Please complete all fields.';
+                return;
+            }
+
+            const database = readDatabase();
+
+            if (isSignupMode) {
+                if (!isValidSellerEmail(email)) {
+                    loginStatus.textContent = 'Email must include one of !, #, $, or & and at least three different digits.';
+                    return;
+                }
+
+                if (findAccount(username)) {
+                    loginStatus.textContent = 'This username already exists.';
+                    return;
+                }
+
+                try {
+                    const result = await apiRequest('/auth/signup', {
+                        method: 'POST',
+                        body: JSON.stringify({ username, email, password, storeName: username })
+                    });
+
+                    localStorage.setItem(SELLER_TOKEN_KEY, result.token);
+                    saveDatabase([...database, { username, email, password, createdAt: new Date().toISOString() }]);
+                    setSession(true);
+                    loginStatus.textContent = 'Account created successfully.';
+                    showDashboard();
+                    return;
+                } catch (error) {
+                    console.warn('API signup failed, saving demo account locally:', error.message);
+                    database.push({ username, email, password, createdAt: new Date().toISOString() });
+                    saveDatabase(database);
+                    setSession(true);
+                    loginStatus.textContent = 'Account created successfully.';
+                    showDashboard();
+                    return;
+                }
+            }
+
+            try {
+                const result = await apiRequest('/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ username, password })
+                });
+
+                localStorage.setItem(SELLER_TOKEN_KEY, result.token);
+                setSession(true);
+                loginStatus.textContent = '';
+                showDashboard();
+                return;
+            } catch (error) {
+                console.warn('API login failed, checking local demo credentials:', error.message);
+                const account = findAccount(username);
+                const isDefaultSeller = username === 'seller' && password === 'camp123';
+
+                if (account && account.password === password) {
+                    setSession(true);
+                    loginStatus.textContent = '';
+                    showDashboard();
+                    return;
+                }
+
+                if (isDefaultSeller) {
+                    setSession(true);
+                    loginStatus.textContent = '';
+                    showDashboard();
+                    return;
+                }
+
+                loginStatus.textContent = 'Invalid username or password.';
+            }
+        });
+
+        const uploadForm = document.getElementById('upload-form');
+        const uploadStatus = document.getElementById('upload-status');
+
+        uploadForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(uploadForm);
+            const name = String(formData.get('productName') || '').trim();
+            const price = Number(formData.get('productPrice'));
+            const tag = String(formData.get('productTag') || '').trim();
+            const image = String(formData.get('productImage') || '').trim();
+            const description = String(formData.get('productDescription') || '').trim();
+
+            if (!name || !Number.isFinite(price) || price <= 0 || !image) {
+                uploadStatus.textContent = 'Please complete the product details before uploading.';
+                return;
+            }
+
+            const payload = {
+                name,
+                price,
+                tag: tag || 'seller upload',
+                image_url: image,
+                description: description || 'New seller upload',
+                size_options: ['S', 'M', 'L', 'XL'],
+                color_options: ['Black', 'White', 'Red', 'Blue', 'Green'],
+                stock: 10,
+            };
+
+            const token = localStorage.getItem(SELLER_TOKEN_KEY);
+
+            try {
+                if (token) {
+                    await apiRequest('/products', {
+                        method: 'POST',
+                        headers: { Authorization: `Bearer ${token}` },
+                        body: JSON.stringify(payload)
+                    });
+                    uploadStatus.textContent = 'Product uploaded to backend successfully.';
+                }
+            } catch (error) {
+                console.warn('Backend upload failed, saving locally:', error.message);
+            }
+
+            const inventory = readInventory();
+            const productId = `${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${Date.now()}`;
+            inventory.unshift({
+                id: productId,
+                name,
+                price,
+                image,
+                tag: tag || 'seller upload',
+                rating: '★★★★☆',
+                attributes: description ? [description] : ['New seller upload'],
+                createdAt: new Date().toISOString()
+            });
+
+            saveInventory(inventory);
+            uploadStatus.textContent = 'Product uploaded successfully.';
+            uploadForm.reset();
+            renderInventory();
+        });
+
+        authToggle.onclick = () => {
+            setFormMode(!isSignupMode);
+        };
+
+        window.addEventListener('storage', () => {
+            if (getSession()) {
+                showDashboard();
+            }
+        });
+
+        setFormMode(false);
+
+        if (getSession()) {
+            showDashboard();
+        } else {
+            showLogin();
+        }
+    </script>
+</body>
+</html>

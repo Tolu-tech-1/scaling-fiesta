@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAMP | Payment Instructions</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --bg-soft: #1f2937;
+            --panel: rgba(15, 23, 42, 0.9);
+            --panel-light: rgba(255, 255, 255, 0.08);
+            --white: #f8fafc;
+            --muted: #dbe3f5;
+            --pink: #ec4899;
+            --purple: #8b5cf6;
+            --blue: #3b82f6;
+            --teal: #14b8a6;
+            --gold: #f59e0b;
+            --orange: #f97316;
+            --border: rgba(255, 255, 255, 0.14);
+            --shadow: 0 20px 45px rgba(15, 23, 42, 0.35);
+            --success: #bbf7d0;
+            --danger: #fca5a5;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: var(--white);
+            background:
+                radial-gradient(circle at top left, rgba(139, 92, 246, 0.45), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(45, 212, 191, 0.35), transparent 25%),
+                linear-gradient(135deg, var(--bg) 0%, #111827 40%, var(--bg-soft) 100%);
+            min-height: 100vh;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.25rem 4rem;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 0 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.22rem;
+            text-transform: uppercase;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--pink), var(--purple), var(--blue));
+            display: grid;
+            place-items: center;
+            box-shadow: 0 0 18px rgba(255, 79, 216, 0.55);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 0.8rem 1.2rem;
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            padding: 0.8rem 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            color: var(--white);
+            box-shadow: 0 12px 26px rgba(167, 139, 250, 0.35);
+        }
+
+        .floating-seller {
+            width: 52px;
+            height: 52px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pink), var(--purple), var(--blue));
+            color: var(--white);
+            font-size: 1.35rem;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: 0 16px 32px rgba(168, 85, 247, 0.45);
+        }
+
+        .hero {
+            padding: 1rem 0 2rem;
+            text-align: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.55rem 1rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            letter-spacing: 0.08rem;
+            text-transform: uppercase;
+            font-size: 0.76rem;
+            margin-bottom: 1rem;
+        }
+
+        .eyebrow .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--gold));
+            box-shadow: 0 0 12px rgba(45, 212, 191, 0.8);
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            letter-spacing: -0.06em;
+            margin-bottom: 1rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #fef3c7 0%, #f9a8d4 25%, #c4b5fd 60%, #7dd3fc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            max-width: 680px;
+            margin: 0 auto 2rem;
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .panel {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 26px;
+            box-shadow: var(--shadow);
+            padding: 1.6rem;
+        }
+
+        .panel h2 {
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .detail-list {
+            list-style: none;
+            display: grid;
+            gap: 0.8rem;
+            color: var(--muted);
+        }
+
+        .detail-list strong {
+            color: var(--white);
+            display: inline-block;
+            min-width: 124px;
+        }
+
+        .step-list {
+            margin-top: 1rem;
+            list-style: decimal;
+            padding-left: 1.2rem;
+            display: grid;
+            gap: 0.7rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .helper {
+            margin-top: 1.5rem;
+            padding: 1.15rem 1.2rem;
+            background: rgba(20, 184, 166, 0.08);
+            border: 1px solid rgba(20,184,166,0.25);
+            border-radius: 16px;
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .button-primary,
+        .button-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            padding: 0.95rem 1.4rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, var(--pink), var(--purple));
+            color: var(--white);
+            box-shadow: 0 16px 30px rgba(139, 92, 246, 0.35);
+        }
+
+        .button-secondary {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border);
+            color: var(--white);
+        }
+
+        .button-primary:hover,
+        .button-secondary:hover,
+        .nav-link:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 640px) {
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .button-primary,
+            .button-secondary,
+            .nav-link {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-mark">C</span>
+                <span>CAMP</span>
+            </div>
+            <div class="nav-actions">
+                <nav class="nav-links">
+                    <a class="nav-link" href="index.html">Home</a>
+                    <a class="nav-link" href="products.html">Products</a>
+                    <a href="payment.html" class="nav-cta">Shop Now</a>
+                </nav>
+                <button class="floating-seller" type="button" aria-label="Seller access" onclick="window.location.href='sellers.html'">👤</button>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="eyebrow"><span class="dot"></span> Payment options</div>
+                <h1>Choose your <span class="gradient-text">payment method</span></h1>
+                <p class="subtitle">Secure your order with either a direct bank transfer or a card payment request. Once your payment is confirmed, we will process your order and send your confirmation details.</p>
+            </section>
+
+            <section class="payment-grid">
+                <article class="panel">
+                    <h2>Bank transfer</h2>
+                    <ul class="detail-list">
+                        <li><strong>Bank:</strong> First National Bank</li>
+                        <li><strong>Account name:</strong> CAMP Clothing</li>
+                        <li><strong>Account no:</strong> 1023 4567 8901</li>
+                        <li><strong>Branch:</strong> Lagos Main Branch</li>
+                        <li><strong>Sort code:</strong> 11-22-33</li>
+                    </ul>
+                    <ol class="step-list">
+                        <li>Transfer the full amount to the account above.</li>
+                        <li>Send your order name and receipt screenshot to hello@campclothing.com.</li>
+                        <li>We will confirm your order and arrange delivery.</li>
+                    </ol>
+                </article>
+
+                <article class="panel">
+                    <h2>Card payment</h2>
+                    <ul class="detail-list">
+                        <li><strong>Accepted cards:</strong> Visa, Mastercard, Verve</li>
+                        <li><strong>WhatsApp:</strong> +234 800 CAMP 000</li>
+                        <li><strong>Email:</strong> payments@campclothing.com</li>
+                        <li><strong>Reference:</strong> Use your full name and order item</li>
+                    </ul>
+                    <ol class="step-list">
+                        <li>Send us your preferred order list and shipping address.</li>
+                        <li>We will share a secure card payment link or payment request.</li>
+                        <li>After payment is approved, we will send your order confirmation.</li>
+                    </ol>
+                </article>
+            </section>
+
+            <div class="helper">Payment confirmation is required before dispatch. Please include your order details in every message.</div>
+
+            <div class="actions">
+                <a class="button-primary" href="https://wa.me/2348002270000?text=Hello%20CAMP%2C%20I%20want%20to%20send%20my%20payment%20proof%20for%20my%20order." target="_blank" rel="noopener noreferrer">Send payment proof</a>
+                <a class="button-secondary" href="index.html">Continue shopping</a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
